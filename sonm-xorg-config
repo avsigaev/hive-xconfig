@@ -23,5 +23,6 @@ set_pl_defaults() {
 
 CARDS_NUM=`nvidia-smi -L | grep UUID | wc -l`
 nvidia-xconfig --allow-empty-initial-configuration --enable-all-gpus --cool-bits=4 --separate-x-screens
+nvidia-smi -pm 1
 set_pl_defaults
 xinit
