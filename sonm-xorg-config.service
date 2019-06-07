@@ -1,0 +1,12 @@
+[Unit]
+Description=Generate XOrg config to enable fan control on Nvidia cards & start xorg
+Before=multi-user.target
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sleep 30
+ExecStart=/usr/bin/sonm-xorg-config
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
