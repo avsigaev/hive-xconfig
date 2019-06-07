@@ -1,6 +1,7 @@
 [Unit]
 Description=Generate XOrg config to enable fan control on Nvidia cards & start xorg
 Before=multi-user.target
+Before=network-online.target
 
 [Service]
 Type=simple
