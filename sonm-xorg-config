@@ -10,5 +10,18 @@ if ! lspci -nm | grep '"\(0300\|0302\)" "10de"' 2>&1 >/dev/null; then
     exit 0
 fi
 
+set_pl_defaults() {
+	# TODO: Handle errors
+	for ((i=0; i<$CARDS_NUM; i++)); do
+		pl_defaults[$i]=$(nvidia-smi --format=csv,noheader -i $i --query-gpu=power.default_limit | cut -d "." -f1)
+		pl_max[$i]=$(( pl_defaults[$i] * 70 / 100 ))
+		echo "INFO: Default (driver settings) PL for GPU${i} is ${pl_defaults[$i]}"
+		echo "INFO: Set PL for GPU${i}:  ${pl_max[$i]}"
+		nvidia-smi -i $i -pl ${pl_max[$i]} &>1
+	done
+}
+
+CARDS_NUM=`nvidia-smi -L | grep UUID | wc -l`
 nvidia-xconfig --allow-empty-initial-configuration --enable-all-gpus --cool-bits=4 --separate-x-screens
+set_pl_defaults
 xinit
