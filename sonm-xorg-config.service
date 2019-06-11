@@ -1,14 +1,10 @@
 [Unit]
-Description=Generate XOrg config to enable fan control on Nvidia cards & start xorg
-Before=multi-user.target
-Before=network-online.target
+Description=Generate XOrg config to enable fan control on Nvidia cards (launch before hivex.service)
+Before=hivex.service
 
 [Service]
-Type=simple
-#ExecStartPre=/bin/sleep 30
+Type=oneshot
 ExecStart=/usr/bin/sonm-xorg-config
-Restart=always
 
 [Install]
-WantedBy=multi-user.target
-WantedBy=network-online.target
+WantedBy=hivex.service
